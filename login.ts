@@ -1,6 +1,8 @@
 import login from "fca-unofficial";
 import fs from "fs";
 import color from "colors";
+import cron from "node-cron";
+import cronConfig from "./handlers/cronJobs";
 const getAppstates = async () => {
   try {
     const files = await fs.promises.readdir("appstates");
@@ -71,8 +73,17 @@ async function Listen(cb: any) {
             forceLogin: true,
             listenEvents: true,
             autoMarkDelivery: false,
-            font: { data: "test" },
           });
+
+          function scheduleCronJobs(api) {
+            cronConfig.forEach(({ expression, run }, index) => {
+              cron.schedule(expression, () => {
+                run(api);
+              });
+            });
+            console.log("Cron jobs scheduled");
+          }
+          scheduleCronJobs(api);
           api.listen((err: any, event: any) => {
             if (err) return console.error(err);
             cb(api, event);

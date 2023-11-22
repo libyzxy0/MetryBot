@@ -21,7 +21,6 @@ const message = async ({ api, event }) => {
       }
     } catch (err: any) {
       //If the file not found or something error.
-      console.log(err);
       if (err.code == "ERR_MODULE_NOT_FOUND") {
         api.sendMessage(
           `Command '${cmd[0]}' isn't found on command list.`,

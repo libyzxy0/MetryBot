@@ -6,7 +6,6 @@ function delay(ms: any) {
 }
 
 export default async function ({ event, api }) {
-  const input = event.body.toLowerCase().split(" ");
   const apiUrl = "https://api--v1-shoti.vercel.app/api/v1/get";
 
   try {

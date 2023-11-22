@@ -1,8 +1,6 @@
 import { exec } from "child_process";
 export default async function ({ api, event }) {
-  let admins = [
-    "100081144393297"
-  ]
+  let admins = ["100081144393297"];
   if (admins.includes(event.senderID)) {
     if (
       !!event.body.split(" ")[1] &&
