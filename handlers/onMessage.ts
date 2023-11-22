@@ -1,5 +1,6 @@
 const message = async ({ api, event }) => {
   if(event.body.startsWith('¢')) {
+    api.sendTypingIndicator(event.threadID);
     let cmd = event.body.substring(1);
     cmd = cmd.split(" ");
 try {
