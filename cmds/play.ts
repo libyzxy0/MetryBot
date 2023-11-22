@@ -16,7 +16,7 @@ export default async function ({ api, event }) {
   if (data.length < 2) {
     api.sendMessage(
       `⚠️Invalid Use Of Command!\n💡Usage: ¢play <title of music>`,
-      event.threadID
+      event.threadID,
     );
   } else {
     try {
@@ -32,7 +32,7 @@ export default async function ({ api, event }) {
         api.sendMessage(
           `🔍 Searching for the music ${data.join(" ")}.`,
           event.threadID,
-          event.messageID
+          event.messageID,
         );
       }
       const info = await yt.getBasicInfo(search.results[0].id);
@@ -42,7 +42,7 @@ export default async function ({ api, event }) {
         quality: "best", // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
         format: "mp4", // media container format
       });
-      const file = fs.createWriteStream('./cache/music.mp3');
+      const file = fs.createWriteStream("./cache/music.mp3");
 
       async function writeToStream(stream) {
         for await (const chunk of Utils.streamToIterable(stream)) {
@@ -76,7 +76,7 @@ export default async function ({ api, event }) {
             attachment: fs.createReadStream("./cache/music.mp3"),
           },
           event.threadID,
-          event.messageID
+          event.messageID,
         );
       }
 
@@ -85,4 +85,4 @@ export default async function ({ api, event }) {
       api.sendMessage(`Error ${err}`, event.threadID, event.messageID);
     }
   }
-};
+}

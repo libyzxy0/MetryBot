@@ -1,1 +1,1 @@
-declare module 'fca-unofficial';
+declare module "fca-unofficial";

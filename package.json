@@ -1,11 +1,12 @@
 {
-  "name": "nodejs-typescript",
+  "name": "metrybot",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "npx prettier . --write",
+    "start": "tsx index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "@types/request": "^2.48.12",
     "amethyste-api": "^1.1.6",
     "fca-unofficial": "^1.3.10",
+    "prettier": "3.1.0",
     "tsx": "^3.12.7",
     "youtubei.js": "^7.0.0"
   }

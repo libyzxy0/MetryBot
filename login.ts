@@ -1,6 +1,6 @@
-import login from 'fca-unofficial';
-import fs from 'fs';
-import color from 'colors';
+import login from "fca-unofficial";
+import fs from "fs";
+import color from "colors";
 const getAppstates = async () => {
   try {
     const files = await fs.promises.readdir("appstates");
@@ -36,15 +36,17 @@ const local = {
 async function Listen(cb: any) {
   let appstates = await getAppstates();
   for (let i = 0; i < appstates.length; i++) {
-    let credentials = JSON.parse(fs.readFileSync(`./appstates/${appstates[i]}`, "utf8"));
+    let credentials = JSON.parse(
+      fs.readFileSync(`./appstates/${appstates[i]}`, "utf8"),
+    );
     //Validate appstate
     if (typeof credentials != "object" && !credentials[0]) {
-      return console.error('Invalid appstate: ' + appstates[i])
+      return console.error("Invalid appstate: " + appstates[i]);
     }
     login(
       {
         appState: credentials,
-        //proxy: proxy, 
+        //proxy: proxy,
         //local: local
       },
       async (err: any, api: any) => {
@@ -54,13 +56,13 @@ async function Listen(cb: any) {
           userInfo = userInfo[cID];
           console.log(
             `${color.blue(`Logged in as >>>`)} ${color.rainbow(
-              `${userInfo.name}`
-            )}`
+              `${userInfo.name}`,
+            )}`,
           );
           console.log(
             `${color.green(`Appstate OK >>>`)} ${color.rainbow(
-              `${appstates[i]}`
-            )}`
+              `${appstates[i]}`,
+            )}`,
           );
 
           if (err) return console.error("Login error");
@@ -69,7 +71,7 @@ async function Listen(cb: any) {
             forceLogin: true,
             listenEvents: true,
             autoMarkDelivery: false,
-            font: { data: "test" }
+            font: { data: "test" },
           });
           api.listen((err: any, event: any) => {
             if (err) return console.error(err);
@@ -83,10 +85,10 @@ async function Listen(cb: any) {
           }
           console.log(
             color.red(`Appstate Error >>>`),
-            color.blue(appstates[i])
+            color.blue(appstates[i]),
           );
         }
-      }
+      },
     );
   }
 }
