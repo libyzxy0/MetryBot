@@ -1,2 +1,2 @@
-const ignoreCmd = ["bot"];
+const ignoreCmd = ["state"];
 export { ignoreCmd };

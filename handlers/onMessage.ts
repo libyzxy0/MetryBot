@@ -19,8 +19,8 @@ const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
         );
       } else {
         if (ignoreCmd.includes(cmd[0])) {
-          if (cmd[0] == "bot") {
-            let { default: run } = await import(`../cmds/bot`);
+          if (cmd[0] == "state") {
+            let { default: run } = await import(`../cmds/state`);
             run({
               api,
               event,

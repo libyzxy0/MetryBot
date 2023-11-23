@@ -31,8 +31,8 @@ class Store {
   getState(): IState {
     return this.state;
   }
-  updateConfigs(newConfigs: Partial<IState["configs"]>) {
-    this.state.configs = { ...this.state.configs, ...newConfigs };
+  updateConfigItem(key: keyof IState['configs'], value: any) {
+    this.state.configs[key] = value;
   }
 }
 

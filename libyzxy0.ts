@@ -1,4 +1,4 @@
-import login from "fca-unofficial";
+import login from "@xaviabot/fca-unofficial";
 import fs from "fs";
 import color from "colors";
 import cron from "node-cron";
