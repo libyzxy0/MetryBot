@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
 import axios from "axios";
-export default async function ({ api, event }) {
+import { FCAEvent } from "../types";
+export default async function ({ api, event }: { api: any; event: FCAEvent }) {
   let prefix = "¢";
   if (
     !!event.body.split(" ")[1] &&

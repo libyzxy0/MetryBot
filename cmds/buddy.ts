@@ -1,5 +1,6 @@
 import axios from "axios";
-async function buddy({ api, event }) {
+import { FCAEvent } from "../types";
+async function buddy({ api, event }: { api: any; event: FCAEvent }) {
   try {
     let prompt = event.body.split(" ");
     prompt.shift();

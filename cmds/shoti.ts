@@ -1,11 +1,12 @@
 import axios from "axios";
 import fs from "fs";
 import request from "request";
+import { FCAEvent } from "../types";
 function delay(ms: any) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export default async function ({ event, api }) {
+export default async function ({ event, api }: { api: any; event: FCAEvent }) {
   const apiUrl = "https://api--v1-shoti.vercel.app/api/v1/get";
 
   try {

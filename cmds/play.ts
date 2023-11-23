@@ -1,6 +1,7 @@
 import { Innertube, UniversalCache, Utils } from "youtubei.js";
+import { FCAEvent } from "../types";
 import fs from "fs";
-export default async function ({ api, event }) {
+export default async function ({ api, event }: { api: any; event: FCAEvent }) {
   let input = event.body;
   let data = input.split(" ");
   if (

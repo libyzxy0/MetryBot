@@ -1,7 +1,8 @@
 import axios from "axios";
-async function replitAI({ api, event }) {
+import { FCAEvent } from "../types";
+async function replitAI({ api, event }: { api: any; event: FCAEvent }) {
   let input = event.body.split(" ");
-  input.shift(" ");
+  input.shift();
   const apiUrl = `https://hazeyy-api-useless.kyrinwu.repl.co/api/replit/ai?input=${input.join(
     " ",
   )}`;

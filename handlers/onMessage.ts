@@ -1,4 +1,4 @@
-import { FCAEvent } from "../types";
+import { FCAEvent, IState } from "../types";
 import { ignoreCmd } from "../config";
 import store from "../store";
 const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
@@ -45,7 +45,7 @@ const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
           event,
         });
       }
-    } catch (err: Error) {
+    } catch (err: any) {
       //If the file not found or something error.
       if (err.code == "ERR_MODULE_NOT_FOUND") {
         api.sendMessage(

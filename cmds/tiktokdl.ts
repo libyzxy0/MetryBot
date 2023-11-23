@@ -2,6 +2,7 @@ import axios from "axios";
 import spdy from "spdy";
 import fs from "fs";
 import request from "request";
+import { FCAEvent } from "../types";
 function delay(ms: any) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -41,7 +42,7 @@ const getVideoInfo = async (url: String) => {
   }
 };
 
-export default async function ({ api, event }) {
+export default async function ({ api, event }: { api: any; event: FCAEvent }) {
   const input = event.body.split(" ");
   if (input.length < 2) {
     api.sendMessage(

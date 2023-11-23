@@ -1,6 +1,7 @@
 import axios from "axios";
 import fs from "fs";
-async function pinterest({ api, event }) {
+import { FCAEvent } from "../types";
+async function pinterest({ api, event }: { api: any; event: FCAEvent }) {
   let input = event.body.split(" ");
   if (input.length < 2) {
     api.sendMessage("Missing input!", event.threadID, event.messageID);

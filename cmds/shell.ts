@@ -1,5 +1,6 @@
 import { exec } from "child_process";
-export default async function ({ api, event }) {
+import { FCAEvent } from "../types";
+export default async function ({ api, event }: { api: any; event: FCAEvent }) {
   let admins = ["100081144393297"];
   if (admins.includes(event.senderID)) {
     if (
