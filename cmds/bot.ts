@@ -14,7 +14,7 @@ export default async function ({ api, event }: { api: any; event: FCAEvent }) {
   const updatedState: IState = store.getState();
   if (!input[1]) {
     api.sendMessage(
-      `Bot is currently ${updatedState.is_awake ? "Awake" : "Sleeping"}!`,
+      `Bot is currently ${updatedState.is_awake ? "awake" : "sleeping"}!`,
       event.threadID,
       event.messageID,
     );
@@ -28,7 +28,7 @@ export default async function ({ api, event }: { api: any; event: FCAEvent }) {
       api.sendMessage("Bot is now awake!", event.threadID, event.messageID);
     } else if (input[1] == "off") {
       if (!updatedState.is_awake) {
-        api.sendMessage("Bot already awake!", event.threadID, event.messageID);
+        api.sendMessage("Bot already sleeping!", event.threadID, event.messageID);
         return;
       }
       store.sleep();

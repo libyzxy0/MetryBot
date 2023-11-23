@@ -3,6 +3,8 @@ import { ignoreCmd } from "../config";
 import store from "../store";
 const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
   const state: IState = store.getState();
+  let senderInfo = await api.getUserInfo(event.senderID);
+  senderInfo = senderInfo[event.senderID];
   if (event.body.startsWith("¢")) {
     const userInput = event.body.substring(1);
     let cmd = userInput.split(" ");
@@ -10,7 +12,7 @@ const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
       if (cmd[0].length == 0) {
         return api.sendMessage(
           {
-            body: "Yess " + "?, that's my prefix.",
+            body: "Yess " + senderInfo.firstName + "?, that's my prefix.",
           },
           event.threadID,
           event.messageID,
