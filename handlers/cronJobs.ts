@@ -4,7 +4,7 @@ const state: IState = store.getState();
 const config = [
   {
     expression: "0 7 * * *",
-    run: function(api: any) {
+    run: function (api: any) {
       api.getThreadList(100, null, ["INBOX"], (_err: Error, data: any) => {
         data.forEach((info: any) => {
           if (info.isGroup && info.isSubscribed) {
@@ -19,7 +19,7 @@ const config = [
   },
   {
     expression: "0 12 * * *",
-    run: function(api: any) {
+    run: function (api: any) {
       api.getThreadList(100, null, ["INBOX"], (_err: Error, data: any) => {
         data.forEach((info: any) => {
           if (info.isGroup && info.isSubscribed) {
@@ -34,7 +34,7 @@ const config = [
   },
   {
     expression: "0 19 * * *",
-    run: function(api: any) {
+    run: function (api: any) {
       api.getThreadList(100, null, ["INBOX"], (_err: Error, data: any) => {
         data.forEach((info: any) => {
           if (info.isGroup && info.isSubscribed) {
@@ -49,7 +49,7 @@ const config = [
   },
   {
     expression: "0 22 * * *",
-    run: function(api: any) {
+    run: function (api: any) {
       api.getThreadList(100, null, ["INBOX"], (_err: Error, data: any) => {
         data.forEach((info: any) => {
           if (info.isGroup && info.isSubscribed) {
@@ -65,7 +65,7 @@ const config = [
   {
     expression: "* * * * *",
     run: function (api: any) {
-      if(!state.configs.shoti_cron) {
+      if (!state.configs.shoti_cron) {
         return;
       }
       let cmdname = "shoti";

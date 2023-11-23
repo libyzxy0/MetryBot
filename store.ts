@@ -31,7 +31,7 @@ class Store {
   getState(): IState {
     return this.state;
   }
-  updateConfigItem(key: keyof IState['configs'], value: any) {
+  updateConfigItem(key: keyof IState["configs"], value: any) {
     this.state.configs[key] = value;
   }
 }

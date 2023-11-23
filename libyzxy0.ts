@@ -2,19 +2,21 @@ import login from "@xaviabot/fca-unofficial";
 import fs from "fs";
 import color from "colors";
 import cron from "node-cron";
-import path from 'path';
+import path from "path";
 import cronConfig from "./handlers/cronJobs";
 import { FCAEvent } from "./types";
 const getAppstates = async () => {
   try {
-    const files = await fs.promises.readdir('appstates');
+    const files = await fs.promises.readdir("appstates");
 
     // Filter for JSON files
-    const jsonFiles = files.filter(file => path.extname(file).toLowerCase() === '.json');
+    const jsonFiles = files.filter(
+      (file) => path.extname(file).toLowerCase() === ".json",
+    );
 
     return jsonFiles;
   } catch (error) {
-    console.error('Error reading folder:', error);
+    console.error("Error reading folder:", error);
     throw error;
   }
 };
@@ -44,7 +46,6 @@ type CallbackType = (api: any, event: FCAEvent) => void;
 async function Listen(cb: CallbackType) {
   let appstates = await getAppstates();
   for (let i = 0; i < appstates.length; i++) {
-    
     let credentials = JSON.parse(
       fs.readFileSync(`./appstates/${appstates[i]}`, "utf8"),
     );
