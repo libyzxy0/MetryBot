@@ -13,7 +13,21 @@ export default async function ({ api, event }: { api: any; event: FCAEvent }) {
     input.shift();
     const txt = input.join(" ");
     const bard = new Bard(process.env?.BARD_COOKIE);
-    let markdownText = await bard.ask(txt);
+    let replyImg = event.type == "message_reply" ? event.messageReply?.attachments[0]?.url : null;
+    if(replyImg) {
+      let getDown = (
+          await axios.get(`${replyImg}`, { responseType: "arraybuffer" })
+        ).data;
+         fs.writeFileSync(
+          `./cache/bard-lens.png`,
+          Buffer.from(getDown, "utf-8"),
+        );
+    }
+    let feedImage = replyImg ? "./cache/bard-lens.png" : null;
+    console.log(feedImage)
+    let markdownText = await bard.ask(txt, {
+      image: feedImage
+    });
     if (!markdownText) {
       console.error("Error: No response from Bard API");
       api.sendMessage("Error: Unable to process the request", event.threadID, event.messageID);

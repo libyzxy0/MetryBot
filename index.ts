@@ -14,5 +14,11 @@ Listen(async (api, event) => {
         message({ api, event });
       }
       break;
+    case "message_reply":
+      if (event.body != null) {
+        message({ api, event });
+      }
+      break;
+    
   }
 });
