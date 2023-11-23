@@ -75,13 +75,15 @@ async function Listen(cb: any) {
             autoMarkDelivery: false,
           });
 
-          function scheduleCronJobs(api) {
-            cronConfig.forEach(({ expression, run }, index) => {
+          function scheduleCronJobs(api: any) {
+            cronConfig.forEach(({ expression, run }, _index) => {
               cron.schedule(expression, () => {
                 run(api);
               });
             });
-            console.log("Cron jobs scheduled");
+            console.log(
+              color.blue("Cron >>> ") + color.green("Cron jobs scheduled."),
+            );
           }
           scheduleCronJobs(api);
           api.listen((err: any, event: any) => {

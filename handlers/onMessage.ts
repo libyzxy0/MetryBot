@@ -1,8 +1,11 @@
-const message = async ({ api, event }) => {
+import { FCAEvent } from "../types";
+import { ignoreCmd } from "../config";
+import store from "../store";
+const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
+  const state: IState = store.getState();
   if (event.body.startsWith("¢")) {
-    api.sendTypingIndicator(event.threadID);
-    let cmd = event.body.substring(1);
-    cmd = cmd.split(" ");
+    const userInput = event.body.substring(1);
+    let cmd = userInput.split(" ");
     try {
       if (cmd[0].length == 0) {
         return api.sendMessage(
@@ -13,13 +16,32 @@ const message = async ({ api, event }) => {
           event.messageID,
         );
       } else {
+        if (ignoreCmd.includes(cmd[0])) {
+          if (cmd[0] == "bot") {
+            let { default: run } = await import(`../cmds/bot`);
+            run({
+              api,
+              event,
+            });
+          } else {
+            console.log(cmd[0], "is ignored cmd!");
+          }
+          return;
+        }
+        //Don't accept commands if bot is sleeping.
+        if(!state.is_awake) {
+          api.sendMessage("Bot is sleeping, don't disturb!", event.threadID, event.messageID);
+          return;
+        }
+        api.sendTypingIndicator(event.threadID);
+        //Running a inputted cmd
         let { default: run } = await import(`../cmds/${cmd[0]}`);
         run({
           api,
           event,
         });
       }
-    } catch (err: any) {
+    } catch (err: Error) {
       //If the file not found or something error.
       if (err.code == "ERR_MODULE_NOT_FOUND") {
         api.sendMessage(

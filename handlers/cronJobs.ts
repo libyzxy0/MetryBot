@@ -59,22 +59,5 @@ const config = [
       });
     },
   },
-  {
-    expression: "*/5 * * * *",
-    run: function (api) {
-      let cmdname = "shoti";
-      api.getThreadList(100, null, ["INBOX"], (err, data) => {
-        data.forEach( async (info) => {
-          if (info.isGroup && info.isSubscribed) {
-            let { default: run } = await import(`../cmds/${cmdname}`);
-            run({
-              api,
-              event: { threadID: info.threadID },
-            });
-          }
-        });
-      });
-    },
-  },
 ];
 export default config;

@@ -1,17 +1,13 @@
 import { Listen } from "./login";
+import { FCAEvent } from "./types";
 import message from "./handlers/onMessage";
-import app from './keep_alive';
+import app from "./keep_alive";
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
 
-Listen(async (api: any, event: any) => {
-  async function userInfo(id: String): Promise<any> {
-    let senderInfo = await api.getUserInfo(id);
-    senderInfo[`${id}`];
-    return senderInfo;
-  }
+Listen(async (api: any, event: FCAEvent) => {
   switch (event.type) {
     case "message":
       if (event.body != null) {
