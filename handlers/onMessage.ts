@@ -29,8 +29,12 @@ const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
           return;
         }
         //Don't accept commands if bot is sleeping.
-        if(!state.is_awake) {
-          api.sendMessage("Bot is sleeping, don't disturb!", event.threadID, event.messageID);
+        if (!state.is_awake) {
+          api.sendMessage(
+            "Bot is sleeping, don't disturb!",
+            event.threadID,
+            event.messageID,
+          );
           return;
         }
         api.sendTypingIndicator(event.threadID);
