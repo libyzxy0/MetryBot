@@ -60,7 +60,6 @@ export default async function ({ api, event }: { api: any; event: FCAEvent }) {
           Buffer.from(getDown, "utf-8"),
         );
         imgData.push(fs.createReadStream(`./cache/bard-${i}.jpg`));
-        //console.log(fs.createReadStream(`./cache/bard-0.jpg`))
       }
       api.sendMessage(
         {

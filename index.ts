@@ -19,6 +19,5 @@ Listen(async (api, event) => {
         message({ api, event });
       }
       break;
-    
   }
 });
