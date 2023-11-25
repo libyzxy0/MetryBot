@@ -41,8 +41,7 @@ const getAppstates = async () => {
         listState.push(data)
           return listState;
          } catch (err) {
-          listState.push("no")
-          console.log(err.message);
+           console.log(color.red(`Token ${m.tokens[i]} is invalid!`))
          }
         }
     } else {
@@ -58,6 +57,10 @@ type CallbackType = (api: any, event: FCAEvent) => void;
 
 async function Listen(cb: CallbackType) {
   let appstates = await getAppstates();
+  if(!appstates || appstates.length == 0) {
+    console.log(color.blue('Please check your login methods, no appstates found!'));
+    return;
+  }
   for (let i = 0; i < appstates.length; i++) {
     login(
       {
