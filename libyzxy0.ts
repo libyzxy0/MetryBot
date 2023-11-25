@@ -1,63 +1,69 @@
 import login from "@xaviabot/fca-unofficial";
-import fs from "fs";
+import fs from "fs/promises";
 import color from "colors";
 import cron from "node-cron";
 import path from "path";
+import axios from 'axios';
 import cronConfig from "./handlers/cronJobs";
 import { FCAEvent } from "./types";
+import config from "./config";
+
 const getAppstates = async () => {
   try {
-    const files = await fs.promises.readdir("appstates");
+    if (config.loginMethod.appstates) {
+      let listState = [];
+      const files = await fs.readdir("appstates");
 
-    // Filter for JSON files
-    const jsonFiles = files.filter(
-      (file) => path.extname(file).toLowerCase() === ".json",
-    );
+      // Filter for JSON files
+      const jsonFiles = files.filter(
+        (file) => path.extname(file).toLowerCase() === ".json"
+      );
 
-    return jsonFiles;
+      for (let i = 0; i < jsonFiles.length; i++) {
+        let credentials = JSON.parse(
+          await fs.readFile(`./appstates/${jsonFiles[i]}`, "utf8")
+        );
+
+        // Validate appstate
+        if (typeof credentials !== "object" || !credentials[0]) {
+          console.error("Invalid appstate: " + jsonFiles[i]);
+          continue;
+        }
+        listState.push(credentials);
+      }
+      return listState;
+    } else if (config.loginMethod.metrystate) {
+      let m = config.loginMethod.metrystate;
+      let listState = [];
+      for (let i = 0;i < m.tokens.length;i++) {
+        try {
+        let { data } = await axios.get(`https://file-api.libyzxy0.repl.co/get/${m.tokens[i]}.json`);
+        listState.push(data)
+          return listState;
+         } catch (err) {
+          listState.push("no")
+          console.log(err.message);
+         }
+        }
+    } else {
+      console.log("Login method not found!");
+    }
   } catch (error) {
-    console.error("Error reading folder:", error);
+    console.error("Error getting appstates:", error.message);
     throw error;
   }
 };
-/*
-const proxy = {
-  protocol: 'https',
-  host: '103.69.108.78',
-  port: 8191,
-  type: 'https',
-  anonymityLevel: 'elite',
-  country: 'PH',
-  city: 'Ssantiago',
-  hostname: '103.69.108.78 (CITI Cableworld Inc.)',
-};
- 
-const local = {
-  timezone: 'Asia/Manila',
-  region: 'ph',
-  headers: {
-    'X-Facebook-Locale': 'en_US',
-    'X-Facebook-Timezone': 'Asia/Manila',
-    'X-Fb-Connection-Quality': 'EXCELLENT',
-  },
-};
-*/
+
 type CallbackType = (api: any, event: FCAEvent) => void;
+
 async function Listen(cb: CallbackType) {
   let appstates = await getAppstates();
   for (let i = 0; i < appstates.length; i++) {
-    let credentials = JSON.parse(
-      fs.readFileSync(`./appstates/${appstates[i]}`, "utf8"),
-    );
-    //Validate appstate
-    if (typeof credentials != "object" && !credentials[0]) {
-      return console.error("Invalid appstate: " + appstates[i]);
-    }
     login(
       {
-        appState: credentials,
-        //proxy: proxy,
-        //local: local
+        appState: appstates[i],
+        // proxy: proxy,
+        // local: local
       },
       async (err: any, api: any) => {
         try {
@@ -65,17 +71,16 @@ async function Listen(cb: CallbackType) {
           let userInfo = await api.getUserInfo(cID);
           userInfo = userInfo[cID];
           console.log(
-            `${color.blue(`Logged in as >>>`)} ${color.rainbow(
-              `${userInfo.name}`,
-            )}`,
-          );
-          console.log(
-            `${color.green(`Appstate OK >>>`)} ${color.rainbow(
-              `${appstates[i]}`,
-            )}`,
+            `${color.blue(`Logged in as >>>`)} ${color.red(
+              `${userInfo.name}`
+            )}`
           );
 
-          if (err) return console.error("Login error");
+          if (err) {
+            console.error("Login error");
+            return;
+          }
+
           api.setOptions({
             logLevel: "silent",
             forceLogin: true,
@@ -90,7 +95,8 @@ async function Listen(cb: CallbackType) {
               });
             });
             console.log(
-              color.blue("Cron >>> ") + color.green("Cron jobs scheduled."),
+              color.blue("Cron >>> ") +
+                color.green("Cron jobs scheduled.")
             );
           }
           scheduleCronJobs(api);
@@ -104,12 +110,8 @@ async function Listen(cb: CallbackType) {
           } else {
             // console.log(err)
           }
-          console.log(
-            color.red(`Appstate Error >>>`),
-            color.blue(appstates[i]),
-          );
         }
-      },
+      }
     );
   }
 }

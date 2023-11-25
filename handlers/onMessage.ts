@@ -1,5 +1,5 @@
 import { FCAEvent, IState } from "../types";
-import { ignoreCmd } from "../config";
+import config from "../config";
 import store from "../store";
 const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
   const state: IState = store.getState();
@@ -18,7 +18,7 @@ const message = async ({ api, event }: { api: any; event: FCAEvent }) => {
           event.messageID,
         );
       } else {
-        if (ignoreCmd.includes(cmd[0])) {
+        if (config.ignoreCmd.includes(cmd[0])) {
           if (cmd[0] == "state") {
             let { default: run } = await import(`../cmds/state`);
             run({
