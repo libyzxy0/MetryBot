@@ -26,7 +26,7 @@ MetryBot, your all-in-one messenger chatbot, is designed to be a proficient comp
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute to Hexabot, please follow these steps:
+Contributions are welcome! If you'd like to contribute to MetryBot, please follow these steps:
 
 1. Fork the repository and create a new branch.
 2. Make your changes and test thoroughly.
