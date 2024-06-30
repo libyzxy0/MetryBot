@@ -7,7 +7,7 @@ function delay(ms: any) {
 }
 
 export default async function ({ event, api }: { api: any; event: FCAEvent }) {
-  const apiUrl = "https://your-shoti-api.vercel.app/api/v1/get";
+  const apiUrl = "https://shoti-srv2.onlitegix.com/api/v1/get";
 
   try {
     const response = await axios.post(apiUrl, {
